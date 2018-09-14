@@ -1,0 +1,30 @@
+{
+  "name": "pooetry-api-2",
+  "version": "0.0.1",
+  "description": "api for pooetry-pwa",
+  "main": "app.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bytes": "^3.0.0",
+    "content-type": "^1.0.4",
+    "depd": "^1.1.2",
+    "destroy": "^1.0.4",
+    "express": "^4.16.3",
+    "kvfs": "^0.2.8",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lemonmelon/pooetry-api-2.git"
+  },
+  "author": "Niels Abildgaard <me@hypesystem.dk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lemonmelon/pooetry-api-2/issues"
+  },
+  "homepage": "https://github.com/lemonmelon/pooetry-api-2#readme"
+}
