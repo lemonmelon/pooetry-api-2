@@ -16,6 +16,7 @@ app.use(function cors(req, res, next) {
 
 app.post("/toilets", (req, res) => {
     let { name, longitude, latitude } = req.body;
+
     if(!name) {
         return res.status(400).send({ error: "Invalid name" });
     }
@@ -33,7 +34,13 @@ app.post("/toilets", (req, res) => {
             console.error("Failed to save toilet", { id, name, longitude, latitude }, error);
             return res.status(500).send({ error: "Failed to create toilet" });
         }
-        res.send({ id, name });
+        kvfs.set(`toilet-posts/${id}`, [], (error) => {
+            if(error) {
+                console.error("Failed to create empty posts list", { id, name }, error);
+                return res.status(500).send({ error: "Failed to create toilet" });
+            }
+            res.send({ id, name });
+        });
     });
 });
 
@@ -100,5 +107,26 @@ function distanceBetween(n1, n2) {
     return d * 1000;
 }
 
+app.get("/toilets/:id", (req, res) => {
+    let { id } = req.params;
+
+    kvfs.get(`toilets/${id}`, (error, toilet) => {
+        if(error && error.code == "ENOENT") {
+            return res.status(404).send({ error: "No such toilet" });
+        }
+        if(error) {
+            console.error("Failed to get toilet", { id }, error);
+            return res.status(500).send({ error: "Failed to get toilet" });
+        }
+        kvfs.get(`toilet-posts/${id}`, (error, posts) => {
+            if(error) {
+                console.error("Failed to get posts for toilet", { id }, error);
+                return res.status(500).send({ error: "Failed to get toilet" });
+            }
+            toilet.posts = posts;
+            res.send(toilet);
+        });
+    });
+});
 
 module.exports = app;
